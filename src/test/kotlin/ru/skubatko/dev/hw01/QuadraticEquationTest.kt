@@ -9,7 +9,7 @@ class QuadraticEquationTest {
 
     @DisplayName("должно возвращать пустой массив (корней нет) для уравнения x^2+1 = 0")
     @Test
-    fun `should return empty result for x^2+1 = 0`() {
+    fun `should return empty for x^2+1 = 0`() {
         // given
         val a = 1.0
         val b = 0.0
@@ -20,5 +20,20 @@ class QuadraticEquationTest {
 
         // then
         assertThat(result).isEmpty()
+    }
+
+    @DisplayName("должно возвращать два корня (x1=1, x2=-1) для уравнения x^2-1 = 0")
+    @Test
+    fun `should return (x1=1, x2=-1) for x^2-1 = 0`() {
+        // given
+        val a = 1.0
+        val b = 0.0
+        val c = -1.0
+
+        // when
+        val result = QuadraticEquation.solve(a, b, c)
+
+        // then
+        assertThat(result).containsOnly(1.0, -1.0)
     }
 }
