@@ -1,6 +1,7 @@
 package ru.skubatko.dev.hw01
 
 import org.assertj.core.api.Assertions.assertThat
+import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 
@@ -50,5 +51,18 @@ class QuadraticEquationTest {
 
         // then
         assertThat(result).containsOnly(-1.0, -1.0)
+    }
+
+    @DisplayName("должно выбрасывать исключение.при a = 0")
+    @Test
+    fun `should throw exception)when a = 0`() {
+        // given
+        val a = 0.0000000001
+        val b = 1.0
+        val c = 1.0
+
+        // when + then
+        assertThatThrownBy { QuadraticEquation.solve(a, b, c) }
+            .isInstanceOf(IllegalArgumentException::class.java)
     }
 }
