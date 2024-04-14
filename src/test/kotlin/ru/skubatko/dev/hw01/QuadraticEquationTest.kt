@@ -38,19 +38,19 @@ class QuadraticEquationTest {
         assertThat(result).containsOnly(1.0, -1.0)
     }
 
-    @DisplayName("должно возвращать один корень (x1= x2 = -1) для уравнения x^2+2x+1 = 0")
+    @DisplayName("должно возвращать один корень кратности два")
     @Test
     fun `should return (x1= x2 = -1) for x^2+2x+1 = 0`() {
         // given
-        val a = 1.0
-        val b = 2.0
-        val c = 1.0
+        val a = 0.9999998
+        val b = 2.0000001
+        val c = 0.999998
 
         // when
         val result = QuadraticEquation.solve(a, b, c)
 
         // then
-        assertThat(result).containsOnly(-1.0, -1.0)
+        assertThat(result).containsOnly(-1.00000025000005)
     }
 
     @DisplayName("должно выбрасывать исключение.при a = 0")
