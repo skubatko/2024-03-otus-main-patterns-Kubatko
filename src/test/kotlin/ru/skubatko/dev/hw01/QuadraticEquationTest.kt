@@ -76,7 +76,7 @@ class QuadraticEquationTest {
     @DisplayName("должен выбрасывать исключение.при нечисловых аргументах")
     @ParameterizedTest(name = "{0} - {index}")
     @MethodSource("generateData")
-    fun `should throw exception when a = 0`(name: String, a: Double, b: Double, c: Double) {
+    fun `should throw exception for non-numeric args`(name: String, a: Double, b: Double, c: Double) {
         assertThatThrownBy { QuadraticEquation.solve(a, b, c) }
             .isInstanceOf(IllegalArgumentException::class.java)
     }
