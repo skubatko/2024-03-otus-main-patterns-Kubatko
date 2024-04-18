@@ -18,6 +18,7 @@ repositories {
 
 val javaVersion: String by project
 val springBootBomVersion: String by project
+val mockkVersion: String by project
 
 dependencyManagement {
     dependencies {
@@ -33,8 +34,7 @@ dependencies {
     testImplementation(kotlin("test"))
     testImplementation("org.junit.jupiter:junit-jupiter-params")
     testImplementation("org.assertj:assertj-core")
-    testImplementation("org.mockito:mockito-core")
-    testImplementation("org.mockito:mockito-junit-jupiter")
+    testImplementation("io.mockk:mockk:${mockkVersion}")
 }
 
 configure<JavaPluginConvention> {
