@@ -1,4 +1,4 @@
-package ru.skubatko.dev.hw02
+package ru.skubatko.dev.hw02.move
 
 import io.mockk.Runs
 import io.mockk.every
