@@ -18,6 +18,7 @@ repositories {
 
 val javaVersion: String by project
 val springBootBomVersion: String by project
+val sokomishalovVersion: String by project
 val mockkVersion: String by project
 
 dependencyManagement {
@@ -30,6 +31,9 @@ dependencyManagement {
 
 dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib")
+    implementation("ch.qos.logback:logback-classic")
+    implementation("ch.qos.logback:logback-core")
+    implementation("ru.sokomishalov.commons:commons-logging:${sokomishalovVersion}")
 
     testImplementation(kotlin("test"))
     testImplementation("org.junit.jupiter:junit-jupiter-params")
