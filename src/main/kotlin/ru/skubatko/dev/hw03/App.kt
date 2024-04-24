@@ -1,5 +1,6 @@
 package ru.skubatko.dev.hw03
 
+import ru.sokomishalov.commons.core.log.CustomLoggerFactory
 import java.util.concurrent.ArrayBlockingQueue
 import java.util.concurrent.atomic.AtomicBoolean
 import kotlin.concurrent.thread
@@ -7,30 +8,19 @@ import kotlin.concurrent.thread
 fun main() {
     val stop = AtomicBoolean(false)
     val queue = ArrayBlockingQueue<Command>(32)
+    val logger = CustomLoggerFactory.getLogger("App")
 
     ExceptionHandler.register(
         RuntimeExceptionCommand::class,
         RuntimeException::class,
-        QueueLogExceptionHandler(queue)::handle
-    )
-
-    ExceptionHandler.register(
-        IllegalArgumentExceptionCommand::class,
-        IllegalArgumentException::class,
-        RetryExceptionHandler()::handle
-    )
-
-    ExceptionHandler.register(
-        IndexOutOfBoundsExceptionCommand::class,
-        IndexOutOfBoundsException::class,
+        // QueueLogExceptionHandler(queue,logger)::handle
+        // RetryExceptionHandler()::handle
         QueueRetryExceptionHandler(queue)::handle
+        // RetryAndLogExceptionHandler(logger)::handle
+        // DoubleRetryAndLogExceptionHandler(logger)::handle
     )
 
     queue.offer(RuntimeExceptionCommand())
-    repeat(3) { queue.offer(WaitCommand()) }
-    queue.offer(IllegalArgumentExceptionCommand())
-    repeat(3) { queue.offer(WaitCommand()) }
-    queue.offer(IndexOutOfBoundsExceptionCommand())
     repeat(3) { queue.offer(WaitCommand()) }
 
     thread {

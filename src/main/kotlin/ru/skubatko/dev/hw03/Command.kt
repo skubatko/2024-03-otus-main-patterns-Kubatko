@@ -1,5 +1,6 @@
 package ru.skubatko.dev.hw03
 
+import org.slf4j.Logger
 import ru.sokomishalov.commons.core.log.Loggable
 import java.util.Queue
 import java.util.concurrent.atomic.AtomicBoolean
@@ -18,28 +19,30 @@ class StopCommand(private val stop: AtomicBoolean) : Command {
     companion object : Loggable
 }
 
-class LogExceptionHandlerCommand(
+class LogExceptionCommand(
     private val c: Command,
-    private val ex: Exception
+    private val ex: Exception,
+    private val logger: Logger
 ) : Command {
 
     override fun execute() {
         logInfo { "log" }
-        logError(ex) { "error in command: ${c.javaClass.simpleName}" }
+        logger.error("error in command: ${c.javaClass.simpleName}", ex)
     }
 
     companion object : Loggable
 }
 
-class QueueLogExceptionHandlerCommand(
+class QueueLogExceptionCommand(
     private val c: Command,
     private val ex: Exception,
-    private val queue: Queue<Command>
+    private val queue: Queue<Command>,
+    private val logger: Logger
 ) : Command {
 
     override fun execute() {
         logInfo { "put log in queue" }
-        queue.offer(LogExceptionHandlerCommand(c, ex))
+        queue.offer(LogExceptionCommand(c, ex, logger))
     }
 
     companion object : Loggable
@@ -65,35 +68,11 @@ class RuntimeExceptionCommand : Command {
     companion object : Loggable
 }
 
-class IllegalArgumentExceptionCommand : Command {
-
-    override fun execute() {
-        logInfo { "illegal argument exception" }
-        throw IllegalArgumentException("arg error")
-    }
-
-    companion object : Loggable
-}
-
-class IndexOutOfBoundsExceptionCommand : Command {
-
-    override fun execute() {
-        logInfo { "index out of bounds exception" }
-        throw IndexOutOfBoundsException("index error")
-    }
-
-    companion object : Loggable
-}
-
 class RetryCommand(private val c: Command) : Command {
 
     override fun execute() {
         logInfo { "retry" }
-        try {
-            c.execute()
-        } catch (ex: Exception) {
-            logError(ex) { "retry failed" }
-        }
+        c.execute()
     }
 
     companion object : Loggable
@@ -106,7 +85,45 @@ class QueueRetryCommand(
 
     override fun execute() {
         logInfo { "queue retry" }
-        queue.offer(c)
+        queue.offer(RetryCommand(c))
+    }
+
+    companion object : Loggable
+}
+
+class RetryAndLogCommand(
+    private val c: Command,
+    private val logger: Logger
+) : Command {
+
+    override fun execute() {
+        logInfo { "retry and log" }
+        try {
+            c.execute()
+        } catch (ex: Exception) {
+            logger.error("retry failed", ex)
+        }
+    }
+
+    companion object : Loggable
+}
+
+class DoubleRetryAndLogCommand(
+    private val c: Command,
+    private val logger: Logger
+) : Command {
+
+    override fun execute() {
+        logInfo { "double retry and log" }
+        try {
+            c.execute()
+        } catch (ex: Exception) {
+            try {
+                c.execute()
+            } catch (ex: Exception) {
+                logger.error("double retry failed", ex)
+            }
+        }
     }
 
     companion object : Loggable
