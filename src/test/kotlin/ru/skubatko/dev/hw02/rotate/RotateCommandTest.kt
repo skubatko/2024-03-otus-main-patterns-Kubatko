@@ -13,7 +13,7 @@ import org.junit.jupiter.api.extension.ExtendWith
 
 @DisplayName("Команда поворота")
 @ExtendWith(MockKExtension::class)
-class RotateTest {
+class RotateCommandTest {
     @MockK
     lateinit var rotatable: Rotatable
 
@@ -26,7 +26,7 @@ class RotateTest {
         every { rotatable.getDirectionsNumber() } returns 3
         every { rotatable.setDirection(any()) } just Runs
 
-        val sut = Rotate(rotatable)
+        val sut = RotateCommand(rotatable)
 
         // when
         sut.execute()
@@ -44,7 +44,7 @@ class RotateTest {
         every { rotatable.getDirectionsNumber() } returns 3
         every { rotatable.setDirection(any()) } just Runs
 
-        val sut = Rotate(rotatable)
+        val sut = RotateCommand(rotatable)
 
         // when + then
         assertThatThrownBy { sut.execute() }.isInstanceOf(RuntimeException::class.java)
@@ -59,7 +59,7 @@ class RotateTest {
         every { rotatable.getDirectionsNumber() } returns 3
         every { rotatable.setDirection(any()) } just Runs
 
-        val sut = Rotate(rotatable)
+        val sut = RotateCommand(rotatable)
 
         // when + then
         assertThatThrownBy { sut.execute() }.isInstanceOf(RuntimeException::class.java)
@@ -74,7 +74,7 @@ class RotateTest {
         every { rotatable.getDirectionsNumber() } throws RuntimeException()
         every { rotatable.setDirection(any()) } just Runs
 
-        val sut = Rotate(rotatable)
+        val sut = RotateCommand(rotatable)
 
         // when + then
         assertThatThrownBy { sut.execute() }.isInstanceOf(RuntimeException::class.java)
@@ -89,7 +89,7 @@ class RotateTest {
         every { rotatable.getDirectionsNumber() } returns 3
         every { rotatable.setDirection(any()) } throws RuntimeException()
 
-        val sut = Rotate(rotatable)
+        val sut = RotateCommand(rotatable)
 
         // when + then
         assertThatThrownBy { sut.execute() }.isInstanceOf(RuntimeException::class.java)

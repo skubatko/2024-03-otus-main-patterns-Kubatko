@@ -13,7 +13,7 @@ import org.junit.jupiter.api.extension.ExtendWith
 
 @DisplayName("Команда движения")
 @ExtendWith(MockKExtension::class)
-class MoveTest {
+class MoveCommandTest {
     @MockK
     lateinit var movable: Movable
 
@@ -25,7 +25,7 @@ class MoveTest {
         every { movable.getVelocity() } returns Vector(-5, 3)
         every { movable.setPosition(any()) } just Runs
 
-        val sut = Move(movable)
+        val sut = MoveCommand(movable)
 
         // when
         sut.execute()
@@ -42,7 +42,7 @@ class MoveTest {
         every { movable.getVelocity() } returns Vector(-5, 3)
         every { movable.setPosition(any()) } just Runs
 
-        val sut = Move(movable)
+        val sut = MoveCommand(movable)
 
         // when + then
         assertThatThrownBy { sut.execute() }.isInstanceOf(RuntimeException::class.java)
@@ -56,7 +56,7 @@ class MoveTest {
         every { movable.getVelocity() } throws RuntimeException()
         every { movable.setPosition(any()) } just Runs
 
-        val sut = Move(movable)
+        val sut = MoveCommand(movable)
 
         // when + then
         assertThatThrownBy { sut.execute() }.isInstanceOf(RuntimeException::class.java)
@@ -70,7 +70,7 @@ class MoveTest {
         every { movable.getVelocity() } returns Vector(-5, 3)
         every { movable.setPosition(any()) } throws RuntimeException()
 
-        val sut = Move(movable)
+        val sut = MoveCommand(movable)
 
         // when + then
         assertThatThrownBy { sut.execute() }.isInstanceOf(RuntimeException::class.java)
