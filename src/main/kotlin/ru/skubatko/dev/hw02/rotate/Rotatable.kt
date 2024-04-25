@@ -5,5 +5,4 @@ interface Rotatable {
     fun setDirection(newValue: Int)
     fun getDirectionsNumber(): Int
     fun getAngularVelocity(): Int
-    fun setAngularVelocity(newValue: Int)
 }
