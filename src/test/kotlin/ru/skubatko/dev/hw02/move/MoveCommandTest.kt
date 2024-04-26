@@ -14,8 +14,7 @@ import org.junit.jupiter.api.extension.ExtendWith
 @DisplayName("Команда движения")
 @ExtendWith(MockKExtension::class)
 class MoveCommandTest {
-    @MockK
-    lateinit var movable: Movable
+    @MockK lateinit var movable: Movable
 
     @DisplayName("должна ожидаемо выполнять перемещение объекта по прямой")
     @Test

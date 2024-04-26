@@ -6,7 +6,7 @@ import ru.skubatko.dev.hw02.rotate.Rotatable
 import ru.skubatko.dev.hw02.rotate.RotateCommand
 import ru.skubatko.dev.hw03.Command
 
-sealed class MacroCommand(private val commandList: List<Command>) : Command {
+abstract class MacroCommand(private val commandList: List<Command>) : Command {
     override fun execute() {
         try {
             commandList.forEach(Command::execute)
@@ -20,6 +20,6 @@ class MoveBurnFuelMacroCommand<T>(t: T) : MacroCommand(
     listOf(CheckFuelCommand(t), MoveCommand(t), BurnFuelCommand(t))
 ) where T : Movable, T : Fueled
 
-class MoveRotateMacroCommand<T>(t: T, speed: Int) : MacroCommand(
-    listOf(CheckMoveCommand(t), RotateCommand(t), UpdateVelocityMoveCommand(t, speed))
+class MoveRotateMacroCommand<T>(t: T) : MacroCommand(
+    listOf(CheckMoveCommand(t), RotateCommand(t), ChangeVelocityCommand(t))
 ) where T : Movable, T : Rotatable

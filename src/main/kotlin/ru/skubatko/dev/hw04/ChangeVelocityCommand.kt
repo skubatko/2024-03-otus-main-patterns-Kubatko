@@ -8,14 +8,14 @@ import java.lang.Math.PI
 import kotlin.math.cos
 import kotlin.math.sin
 
-class UpdateVelocityMoveCommand<T>(
-    private val t: T,
-    private val speed: Int,
+class ChangeVelocityCommand<T>(
+    private val t: T
 ) : Command where T : Movable, T : Rotatable {
 
     override fun execute() {
         val d = t.getDirection()
         val n = t.getDirectionsNumber()
+        val speed = t.getVelocity().length
         t.setVelocity(
             Vector(
                 (speed * cos(2 * PI * d / n)).toInt(),
