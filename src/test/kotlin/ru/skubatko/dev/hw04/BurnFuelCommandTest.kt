@@ -1,5 +1,8 @@
 package ru.skubatko.dev.hw04
 
+import ru.skubatko.dev.hw04.commands.BurnFuelCommand
+import ru.skubatko.dev.hw04.domain.Fueled
+import ru.skubatko.dev.hw04.domain.Liter
 import io.mockk.every
 import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.RelaxedMockK

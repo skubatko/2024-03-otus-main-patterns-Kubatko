@@ -1,59 +1,58 @@
 package ru.skubatko.dev.hw04
 
-import io.mockk.every
-import io.mockk.impl.annotations.RelaxedMockK
-import io.mockk.junit5.MockKExtension
-import io.mockk.verify
+import ru.skubatko.dev.hw02.move.Vector
+import ru.skubatko.dev.hw04.commands.MoveBurnFuelMacroCommand
+import ru.skubatko.dev.hw04.domain.Liter
+import ru.skubatko.dev.hw04.domain.Spaceship
+import ru.skubatko.dev.hw04.exceptions.CommandException
+import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy
-import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.extension.ExtendWith
-import ru.skubatko.dev.hw02.move.Vector
-import ru.skubatko.dev.test.Car
-import ru.skubatko.dev.verifyNotCalled
 
 @DisplayName("Команда движения по прямой с расходом топлива")
-@ExtendWith(MockKExtension::class)
 class MoveBurnFuelMacroCommandTest {
-    @RelaxedMockK lateinit var car: Car
-
-    lateinit var command: MoveBurnFuelMacroCommand<Car>
-
-    @BeforeEach
-    internal fun setUp() {
-        command = MoveBurnFuelMacroCommand(car)
-    }
 
     @DisplayName("должна ожидаемо перемещать объект с ожидаемым расходом топлива")
     @Test
     fun `should expectedly move object with expected fuel consumption`() {
         // given
-        every { car.getVolume() } returns Liter(10)
-        every { car.getConsumption() } returns Liter(3)
-        every { car.getPosition() } returns Vector(0, 0)
-        every { car.getVelocity() } returns Vector(1, 0)
+        val spaceship = Spaceship(
+            position = Vector(1, 3),
+            velocity = 5,
+            direction = 1,
+            directionsNumber = 4,
+            volume = Liter(10),
+            consumption = Liter(3)
+        )
+        val command = MoveBurnFuelMacroCommand(spaceship)
 
         // when
         command.execute()
 
         // then
-        verify { car.setPosition(Vector(1, 0)) }
-        verify { car.setVolume(Liter(7)) }
+        assertThat(spaceship.position).isEqualTo(Vector(1, 8))
+        assertThat(spaceship.volume).isEqualTo(Liter(7))
     }
 
     @DisplayName("не должна перемещать объект когда недостаточно топлива")
     @Test
     fun `should not move object when fuel level is not enough`() {
         // given
-        every { car.getVolume() } returns Liter(1)
-        every { car.getConsumption() } returns Liter(3)
+        val spaceship = Spaceship(
+            position = Vector(7, 11),
+            velocity = 12,
+            direction = 1,
+            directionsNumber = 4,
+            volume = Liter(2),
+            consumption = Liter(3)
+        )
+        val command = MoveBurnFuelMacroCommand(spaceship)
 
         // when
         assertThatThrownBy { command.execute() }.isInstanceOf(CommandException::class.java)
 
         // then
-        verifyNotCalled { car.setPosition(any()) }
-        verifyNotCalled { car.setVolume(any()) }
+        assertThat(spaceship.position).isEqualTo(Vector(7, 11))
     }
 }

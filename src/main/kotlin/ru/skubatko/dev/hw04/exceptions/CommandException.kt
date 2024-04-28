@@ -1,3 +1,3 @@
-package ru.skubatko.dev.hw04
+package ru.skubatko.dev.hw04.exceptions
 
 class CommandException : RuntimeException()

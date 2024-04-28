@@ -1,4 +1,4 @@
-package ru.skubatko.dev.hw04
+package ru.skubatko.dev.hw04.domain
 
 interface Fueled {
     fun getVolume(): Liter

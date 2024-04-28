@@ -30,7 +30,8 @@ dependencyManagement {
 }
 
 dependencies {
-    implementation("org.jetbrains.kotlin:kotlin-stdlib")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+    implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("ch.qos.logback:logback-classic")
     implementation("ch.qos.logback:logback-core")
     implementation("ru.sokomishalov.commons:commons-logging:${sokomishalovVersion}")
