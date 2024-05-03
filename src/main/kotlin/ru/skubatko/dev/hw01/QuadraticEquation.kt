@@ -9,7 +9,7 @@ import kotlin.math.sqrt
 class QuadraticEquation {
 
     companion object {
-        fun solve(a: Double, b: Double, c: Double): DoubleArray {
+        fun solve(a: Double, b: Double, c: Double, eps: Double = 1e-7): DoubleArray {
             if (listOf(a, b, c).contains(POSITIVE_INFINITY)) {
                 throw IllegalArgumentException()
             }
@@ -20,17 +20,16 @@ class QuadraticEquation {
                 throw IllegalArgumentException()
             }
 
-            val eps = 0.001
-            if (abs(a) < eps) {
-                throw IllegalArgumentException()
+            if (abs(a) <= eps) {
+                throw IllegalArgumentException("a не должно быть равно 0")
             }
 
             val discriminant = b * b - 4 * a * c
-            if (discriminant < 0) {
+            if (discriminant < -eps) {
                 return DoubleArray(0)
             }
 
-            if (discriminant < eps) {
+            if (abs(discriminant) <= eps) {
                 val result = DoubleArray(1)
                 result[0] = -b / 2 / a
                 return result

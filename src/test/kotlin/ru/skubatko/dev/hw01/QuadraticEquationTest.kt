@@ -49,15 +49,15 @@ class QuadraticEquationTest {
     @Test
     fun `should return (x1= x2 = -1) for x^2+2x+1 = 0`() {
         // given
-        val a = 0.9999998
-        val b = 2.0000001
-        val c = 0.999998
+        val a = 0.9999999998
+        val b = 2.0000000001
+        val c = 0.9999999998
 
         // when
         val result = QuadraticEquation.solve(a, b, c)
 
         // then
-        assertThat(result).containsOnly(-1.00000025000005)
+        assertThat(result).containsOnly(-1.00000000025)
     }
 
     @DisplayName("должно выбрасывать исключение.при a = 0")
