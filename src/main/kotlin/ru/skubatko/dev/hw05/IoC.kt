@@ -2,12 +2,14 @@
 
 package ru.skubatko.dev.hw05
 
+import ru.skubatko.dev.hw05.Dependency.Companion.STRATEGY_UPDATE
+
 class IoC {
 
     companion object {
         private val DEFAULT_STRATEGY: IoCStrategy =
             { dependency: Dependency, args: Args ->
-                if (dependency != Dependency("Update IoC Resolve Dependency Strategy")) {
+                if (dependency != STRATEGY_UPDATE) {
                     throw IllegalArgumentException("Dependency $dependency is not found")
                 }
 

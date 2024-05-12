@@ -3,6 +3,14 @@
 package ru.skubatko.dev.hw05
 
 import ru.skubatko.dev.hw03.Command
+import ru.skubatko.dev.hw05.Dependency.Companion.CLEAR_CURRENT_SCOPE
+import ru.skubatko.dev.hw05.Dependency.Companion.CREATE_EMPTY_SCOPE
+import ru.skubatko.dev.hw05.Dependency.Companion.CREATE_SCOPE
+import ru.skubatko.dev.hw05.Dependency.Companion.CURRENT_SCOPE
+import ru.skubatko.dev.hw05.Dependency.Companion.PARENT_SCOPE
+import ru.skubatko.dev.hw05.Dependency.Companion.REGISTER
+import ru.skubatko.dev.hw05.Dependency.Companion.SET_CURRENT_SCOPE
+import ru.skubatko.dev.hw05.Dependency.Companion.STRATEGY_UPDATE
 
 class InitCommand : Command {
 
@@ -10,22 +18,22 @@ class InitCommand : Command {
         if (alreadyExecutesSuccessfully) return;
 
         synchronized(rootScope) {
-            rootScope[Dependency("IoC.Scope.Current.Set")] = { args -> SetCurrentScopeCommand(args) }
-            rootScope[Dependency("IoC.Scope.Current.Clear")] = { ClearCurrentScopeCommand() }
-            rootScope[Dependency("IoC.Scope.Current")] = { currentScopes.get() ?: rootScope }
-            rootScope[Dependency("IoC.Scope.Parent")] =
+            rootScope[SET_CURRENT_SCOPE] = { args -> SetCurrentScopeCommand(args) }
+            rootScope[CLEAR_CURRENT_SCOPE] = { ClearCurrentScopeCommand() }
+            rootScope[CURRENT_SCOPE] = { currentScopes.get() ?: rootScope }
+            rootScope[PARENT_SCOPE] =
                 { throw RuntimeException("The root scope has no a parent scope") }
-            rootScope[Dependency("IoC.Scope.Create.Empty")] = { Scope() }
-            rootScope[Dependency("IoC.Scope.Create")] = { args ->
-                IoC.resolve<Scope>(Dependency("IoC.Scope.Create.Empty")).also { creatingScope ->
+            rootScope[CREATE_EMPTY_SCOPE] = { Scope() }
+            rootScope[CREATE_SCOPE] = { args ->
+                IoC.resolve<Scope>(CREATE_EMPTY_SCOPE).also { creatingScope ->
                     val parentScope = when {
                         args.isNotEmpty() -> args[0]
-                        else -> IoC.resolve<Scope>(Dependency("IoC.Scope.Current"))
+                        else -> IoC.resolve<Scope>(CURRENT_SCOPE)
                     }
-                    creatingScope[Dependency("IoC.Scope.Parent")] = { parentScope }
+                    creatingScope[PARENT_SCOPE] = { parentScope }
                 }
             }
-            rootScope[Dependency("IoC.Register")] = { args ->
+            rootScope[REGISTER] = { args ->
                 RegisterDependencyCommand(
                     args[0] as Dependency,
                     args[1] as DependencyResolverStrategy
@@ -33,7 +41,7 @@ class InitCommand : Command {
             }
 
             IoC.resolve<Command>(
-                Dependency("Update IoC Resolve Dependency Strategy"),
+                STRATEGY_UPDATE,
                 { _: IoCStrategy ->
                     { dependency: Dependency, args: Args ->
                         val scope = currentScopes.get() ?: rootScope

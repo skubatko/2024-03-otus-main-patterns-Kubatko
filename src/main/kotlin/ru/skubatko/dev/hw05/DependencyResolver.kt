@@ -1,5 +1,7 @@
 package ru.skubatko.dev.hw05
 
+import ru.skubatko.dev.hw05.Dependency.Companion.PARENT_SCOPE
+
 class DependencyResolver(
     private val _scope: Scope
 ) {
@@ -12,7 +14,7 @@ class DependencyResolver(
                 return dependencyResolverStrategy(args);
             }
 
-            scope = scope[Dependency("IoC.Scope.Parent")]!!(args) as Scope;
+            scope = scope[PARENT_SCOPE]!!(args) as Scope;
         }
     }
 }

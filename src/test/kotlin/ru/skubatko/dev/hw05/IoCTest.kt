@@ -1,6 +1,7 @@
 package ru.skubatko.dev.hw05
 
 import ru.skubatko.dev.hw03.Command
+import ru.skubatko.dev.hw05.Dependency.Companion.STRATEGY_UPDATE
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.jupiter.api.DisplayName
@@ -15,7 +16,7 @@ class IoCTest {
         var wasCalled = false
 
         IoC.resolve<Command>(
-            Dependency("Update IoC Resolve Dependency Strategy"),
+            STRATEGY_UPDATE,
             { args: IoCStrategy ->
                 wasCalled = true
                 args
@@ -37,10 +38,7 @@ class IoCTest {
     @Test
     fun `should throw ClassCastException if dependency resolves another type`() {
         assertThatThrownBy {
-            IoC.resolve<String>(
-                Dependency("Update IoC Resolve Dependency Strategy"),
-                { args: IoCStrategy -> args }
-            ).length
+            IoC.resolve<String>(STRATEGY_UPDATE, { args: IoCStrategy -> args }).length
         }.isInstanceOf(ClassCastException::class.java)
     }
 }
