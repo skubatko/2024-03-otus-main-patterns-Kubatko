@@ -12,6 +12,8 @@ import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
+import java.util.concurrent.atomic.AtomicInteger
+import kotlin.concurrent.thread
 
 @DisplayName("IoC в части контекста")
 class ScopeTest {
@@ -67,5 +69,31 @@ class ScopeTest {
         IoC.resolve<Command>(SET_CURRENT_SCOPE, scope2).execute();
 
         assertThat(IoC.resolve<Int>(someDependency)).isEqualTo(2)
+    }
+
+    @DisplayName("должен ожидаемо устанавливать контекст в многопоточной среде")
+    @Test
+    fun `should expectedly set scope in multithreading environment`() {
+        val threads = mutableListOf<Thread>()
+        val failed = AtomicInteger(0)
+
+        for (i in 1..10) {
+            threads += thread(start = false) {
+                val scope = IoC.resolve<Scope>(CREATE_SCOPE)
+                Thread.sleep((11 - i) * 100L)
+                IoC.resolve<Command>(SET_CURRENT_SCOPE, scope).execute();
+                Thread.sleep((11 - i) * 100L)
+                IoC.resolve<Command>(REGISTER, someDependency, { _: Any -> i }).execute()
+                Thread.sleep((11 - i) * 100L)
+                if (IoC.resolve<Int>(someDependency) != i) {
+                    failed.incrementAndGet()
+                }
+            }
+        }
+
+        threads.forEach { it.start() }
+        threads.forEach { it.join() }
+
+        assertThat(failed.get()).isEqualTo(0)
     }
 }
