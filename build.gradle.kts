@@ -1,78 +1,52 @@
-import org.gradle.plugins.ide.idea.model.IdeaLanguageLevel
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    idea
-    application
-    kotlin("jvm")
-    id("io.spring.dependency-management")
+    kotlin("jvm") version "1.9.23"
+    id("org.springframework.boot") version "3.2.5" apply false
+    id("io.spring.dependency-management") version "1.1.4"
 }
 
 group = "ru.skubatko.dev"
 version = "1.0.0"
 description = "HW for OTUS Architecture and patterns course"
 
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+}
+
 repositories {
     mavenCentral()
 }
 
-val javaVersion: String by project
-val springBootBomVersion: String by project
-val sokomishalovVersion: String by project
-val mockkVersion: String by project
-
 dependencyManagement {
-    dependencies {
-        imports {
-            mavenBom("org.springframework.boot:spring-boot-dependencies:${springBootBomVersion}")
-        }
+    imports {
+        mavenBom(org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES)
     }
 }
 
 dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
-    implementation("ch.qos.logback:logback-classic")
     implementation("ch.qos.logback:logback-core")
-    implementation("ru.sokomishalov.commons:commons-logging:${sokomishalovVersion}")
+    implementation("ch.qos.logback:logback-classic")
+    implementation("ru.sokomishalov.commons:commons-logging:1.2.1")
 
-    testImplementation(kotlin("test"))
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
     testImplementation("org.junit.jupiter:junit-jupiter-params")
     testImplementation("org.assertj:assertj-core")
-    testImplementation("io.mockk:mockk:${mockkVersion}")
+    testImplementation("io.mockk:mockk:1.13.10")
 }
 
-configure<JavaPluginConvention> {
-    sourceCompatibility = JavaVersion.toVersion(javaVersion)
-    targetCompatibility = JavaVersion.toVersion(javaVersion)
-}
-
-idea {
-    module {
-        isDownloadJavadoc = true
-        isDownloadSources = true
-        languageLevel = IdeaLanguageLevel(javaVersion)
+tasks.withType<KotlinCompile> {
+    kotlinOptions {
+        freeCompilerArgs += "-Xjsr305=strict"
+        jvmTarget = "17"
     }
 }
 
-application {
-    mainClass.set("ru.skubatko.dev.KotlinAppKt")
-}
-
-tasks {
-    withType<KotlinCompile> {
-        kotlinOptions {
-            freeCompilerArgs = listOf("-Xjsr305=strict")
-            jvmTarget = javaVersion
-        }
-    }
-}
-
-tasks {
-    test {
-        useJUnitPlatform()
-        testLogging {
-            events("passed", "skipped", "failed")
-        }
+tasks.withType<Test> {
+    useJUnitPlatform()
+    testLogging {
+        events("passed", "skipped", "failed")
     }
 }
