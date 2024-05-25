@@ -1,3 +1,5 @@
+import ru.skubatko.dev.GenerateAdaptersTask
+import ru.skubatko.dev.IoCAdapterGeneratorPlugin
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
@@ -49,4 +51,18 @@ tasks.withType<Test> {
     testLogging {
         events("passed", "skipped", "failed")
     }
+}
+
+apply<IoCAdapterGeneratorPlugin>()
+
+tasks.named<GenerateAdaptersTask>("generateAdapters")
+
+tasks.withType<KotlinCompile>().configureEach {
+    dependsOn("generateAdapters")
+}
+
+afterEvaluate {
+    (extensions["sourceSets"] as SourceSetContainer)["main"]
+        .java
+        .srcDir("src-gen")
 }
