@@ -46,7 +46,7 @@ abstract class IoCAdapterGeneratorPluginExtension(project: Project) {
     private val messageFileProperty = objects.fileProperty()
 
     private val outputDirProperty = objects.directoryProperty()
-        .convention(project.layout.buildDirectory.dir("src-gen"))
+        .convention(project.layout.buildDirectory.dir("generated"))
 
 }
 
@@ -60,7 +60,6 @@ open class GenerateAdaptersTask : DefaultTask() {
 
     @TaskAction
     fun generate() {
-        println("Hello World")
         IoCAdapterGenerator().generate(packageName, outputDir)
     }
 }

@@ -61,8 +61,6 @@ tasks.withType<KotlinCompile>().configureEach {
     dependsOn("generateAdapters")
 }
 
-afterEvaluate {
-    (extensions["sourceSets"] as SourceSetContainer)["main"]
-        .java
-        .srcDir("src-gen")
+sourceSets.main {
+    java.srcDirs("build/generated/src/main/kotlin")
 }

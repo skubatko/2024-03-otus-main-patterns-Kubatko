@@ -1,27 +1,22 @@
 package ru.skubatko.dev
 
-import com.squareup.kotlinpoet.FileSpec
-import com.squareup.kotlinpoet.PropertySpec
-import com.squareup.kotlinpoet.TypeSpec
 import java.io.File
 
 class IoCAdapterGenerator {
 
     fun generate(packageName: String, outputDir: File) {
+        val dir = "$outputDir/src/main/kotlin/${packageName.replace('.', '/')}"
+        with(File(dir, "SpaceshipOperationsMovableAdapter.kt")) {
+            parentFile.mkdirs()
+            writeText(generateContent())
+        }
 
-        val className = "SpaceshipOperationsMovableAdapter"
-
-        val kotlinFileSpecBuilder = FileSpec.builder(packageName, className)
-
-        val classBuilder = TypeSpec.classBuilder(className)
-        val property = PropertySpec.builder("message", String::class)
-            .initializer(generateContent())
-            .build()
-
-        val clazz = classBuilder.addProperty(property).build()
-
-        val kotlinFileSpec = kotlinFileSpecBuilder.addType(clazz).build()
-        kotlinFileSpec.writeTo(outputDir)
+//        val className = "SpaceshipOperationsMovableAdapter"
+//        val kotlinFileSpecBuilder = FileSpec.builder(packageName, className)
+//        val classBuilder = TypeSpec.classBuilder(className)
+//        val clazz = classBuilder.build()
+//        val kotlinFileSpec = kotlinFileSpecBuilder.addType(clazz).build()
+//        kotlinFileSpec.writeTo(outputDir)
     }
 
     private fun generateContent() =
