@@ -10,13 +10,6 @@ class IoCAdapterGenerator {
             parentFile.mkdirs()
             writeText(generateContent())
         }
-
-//        val className = "SpaceshipOperationsMovableAdapter"
-//        val kotlinFileSpecBuilder = FileSpec.builder(packageName, className)
-//        val classBuilder = TypeSpec.classBuilder(className)
-//        val clazz = classBuilder.build()
-//        val kotlinFileSpec = kotlinFileSpecBuilder.addType(clazz).build()
-//        kotlinFileSpec.writeTo(outputDir)
     }
 
     private fun generateContent() =
@@ -40,6 +33,10 @@ class IoCAdapterGenerator {
             
                 override fun getVelocity(): Vector =
                     IoC.resolve(Dependency("Spaceship.Operations.Movable:velocity.get"), obj)
+
+                override fun finish() {
+                    IoC.resolve<Void>(Dependency("Spaceship.Operations.Movable:finish"), obj)
+                }
             }
         """.trimIndent()
 }

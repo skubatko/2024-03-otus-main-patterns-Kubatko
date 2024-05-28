@@ -6,4 +6,5 @@ interface SpaceshipOperationsMovable {
     fun getPosition(): Vector
     fun setPosition(newValue: Vector): Vector
     fun getVelocity(): Vector
+    fun finish()
 }
