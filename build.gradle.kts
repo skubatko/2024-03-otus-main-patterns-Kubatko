@@ -37,6 +37,7 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter-params")
     testImplementation("org.assertj:assertj-core")
     testImplementation("io.mockk:mockk:1.13.10")
+    testImplementation("org.awaitility:awaitility:3.1.6")
 }
 
 tasks.withType<KotlinCompile> {
