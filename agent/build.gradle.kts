@@ -12,11 +12,16 @@ configurations {
 }
 
 dependencies {
+    val sokomishalovCommonsVersion: String by project
+
     implementation(project(":api"))
+    implementation(project(":hw"))
 
     implementation("org.springframework.boot:spring-boot-starter-websocket")
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
     kapt("org.springframework.boot:spring-boot-configuration-processor")
+
+    implementation("ru.sokomishalov.commons:commons-spring:$sokomishalovCommonsVersion")
 }
 
 springBoot {

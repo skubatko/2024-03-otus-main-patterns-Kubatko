@@ -1,6 +1,13 @@
 server:
-  port: 8080
+  port: 8082
 
 spring:
   application:
     name: agent
+
+ws.server.host: ws://127.0.0.1:8081/websocket
+
+logging:
+  pattern.console: '%white([%thread]) %highlight(%-5level) %cyan(%logger{5}) %magenta([%file:%-4L]) - %msg%n'
+  level:
+    root: info
