@@ -13,6 +13,8 @@ dependencyManagement {
 }
 
 dependencies {
+    implementation(project(":api"))
+
     implementation("ch.qos.logback:logback-core")
     implementation("ch.qos.logback:logback-classic")
 }

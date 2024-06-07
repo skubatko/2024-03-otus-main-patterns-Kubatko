@@ -10,13 +10,17 @@ import ru.sokomishalov.commons.core.log.Loggable
 import java.lang.reflect.Type
 
 @Component
-class AgentStompSessionHandler : StompSessionHandler {
+class AgentStompSessionHandler(
+    private val agentService: AgentService
+) : StompSessionHandler {
 
     override fun getPayloadType(headers: StompHeaders): Type =
         GameStatusMessageTO::class.java
 
     override fun handleFrame(headers: StompHeaders, payload: Any?) {
-        logInfo { "handleFrame() - info: received: $payload" }
+        logInfo { "handleFrame() - start: game status: $payload" }
+        agentService.handleGameStatus(payload as GameStatusMessageTO)
+        logInfo { "handleFrame() - end" }
     }
 
     override fun afterConnected(session: StompSession, connectedHeaders: StompHeaders) {
