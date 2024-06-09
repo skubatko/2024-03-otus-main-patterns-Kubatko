@@ -7,7 +7,7 @@ import ru.skubatko.dev.hw05.IoC
 import ru.skubatko.dev.hw08.domain.Game
 import ru.skubatko.dev.hw08.domain.Operation
 
-class InterpretCommand(
+data class InterpretCommand(
     private val game: Game,
     private val obj: UObject,
     private val operation: Operation,
