@@ -8,9 +8,9 @@
         </encoder>
     </appender>
 
-    <logger name="ru.skubatko.dev" level="DEBUG"/>
+<!--    <logger name="ru.skubatko.dev" level="DEBUG"/>-->
 
-    <root level="ERROR">
+    <root level="OFF">
         <appender-ref ref="CONSOLE"/>
     </root>
 </configuration>

@@ -1,11 +1,12 @@
 server:
-  port: 8081
+  port: 8181
 
 spring:
-  application:
-    name: server
+  main:
+    banner-mode: off
+
 
 logging:
   pattern.console: '%white([%thread]) %highlight(%-5level) %cyan(%logger{5}) %magenta([%file:%-4L]) - %msg%n'
   level:
-    root: INFO
+    root: OFF

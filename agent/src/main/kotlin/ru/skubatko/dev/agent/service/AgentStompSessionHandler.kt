@@ -11,7 +11,7 @@ import java.lang.reflect.Type
 
 @Component
 class AgentStompSessionHandler(
-    private val agentService: AgentService
+    private val gameService: GameService
 ) : StompSessionHandler {
 
     override fun getPayloadType(headers: StompHeaders): Type =
@@ -19,7 +19,7 @@ class AgentStompSessionHandler(
 
     override fun handleFrame(headers: StompHeaders, payload: Any?) {
         logInfo { "handleFrame() - start: game status: $payload" }
-        agentService.handleGameStatus(payload as GameStatusMessageTO)
+        gameService.handleGameStatus(payload as GameStatusMessageTO)
         logInfo { "handleFrame() - end" }
     }
 
