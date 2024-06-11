@@ -1,11 +1,8 @@
-import ru.skubatko.dev.GenerateAdaptersTask
-import ru.skubatko.dev.IoCAdapterGeneratorPlugin
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    kotlin("jvm") version "1.9.23"
-    id("org.springframework.boot") version "3.2.5" apply false
-    id("io.spring.dependency-management") version "1.1.4"
+    id("io.spring.dependency-management")
+    kotlin("jvm")
 }
 
 group = "ru.skubatko.dev"
@@ -16,52 +13,54 @@ java {
     sourceCompatibility = JavaVersion.VERSION_17
 }
 
-repositories {
-    mavenCentral()
-}
-
-dependencyManagement {
-    imports {
-        mavenBom(org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES)
+allprojects {
+    repositories {
+        mavenCentral()
     }
 }
 
-dependencies {
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-    implementation("org.jetbrains.kotlin:kotlin-reflect")
-    implementation("ch.qos.logback:logback-core")
-    implementation("ch.qos.logback:logback-classic")
-    implementation("ru.sokomishalov.commons:commons-logging:1.2.1")
+subprojects {
+    apply(plugin = "org.jetbrains.kotlin.jvm")
+    apply(plugin = "io.spring.dependency-management")
 
-    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
-    testImplementation("org.junit.jupiter:junit-jupiter-params")
-    testImplementation("org.assertj:assertj-core")
-    testImplementation("io.mockk:mockk:1.13.10")
-    testImplementation("org.awaitility:awaitility:3.1.6")
-}
-
-tasks.withType<KotlinCompile> {
-    kotlinOptions {
-        freeCompilerArgs += "-Xjsr305=strict"
-        jvmTarget = "17"
+    configurations.all {
+        resolutionStrategy {
+            exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
+        }
     }
-}
 
-tasks.withType<Test> {
-    useJUnitPlatform()
-    testLogging {
-        events("passed", "skipped", "failed")
+    dependencies {
+        val mockkVersion: String by project
+        val sokomishalovCommonsVersion: String by project
+        val awaitilityVersion: String by project
+
+        implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+        implementation("org.jetbrains.kotlin:kotlin-reflect")
+
+        implementation("ru.sokomishalov.commons:commons-logging:$sokomishalovCommonsVersion")
+
+        testImplementation("org.springframework.boot:spring-boot-starter-test") {
+            exclude(module = "junit")
+            exclude(module = "mockito-core")
+        }
+        testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+        testImplementation("org.junit.jupiter:junit-jupiter-params")
+        testImplementation("org.assertj:assertj-core")
+        testImplementation("org.awaitility:awaitility:$awaitilityVersion")
+        testImplementation("io.mockk:mockk:$mockkVersion")
     }
-}
 
-apply<IoCAdapterGeneratorPlugin>()
+    tasks.withType<KotlinCompile> {
+        kotlinOptions {
+            freeCompilerArgs += "-Xjsr305=strict"
+            jvmTarget = "17"
+        }
+    }
 
-tasks.named<GenerateAdaptersTask>("generateAdapters")
-
-tasks.withType<KotlinCompile>().configureEach {
-    dependsOn("generateAdapters")
-}
-
-sourceSets.main {
-    java.srcDirs("build/generated/src/main/kotlin")
+    tasks.withType<Test> {
+        useJUnitPlatform()
+        testLogging {
+            events("passed", "skipped", "failed")
+        }
+    }
 }
