@@ -34,7 +34,7 @@ class WebSocketClientConfig(
         val restTemplate = restTemplateBuilder.build()
         val authRequest = HttpEntity(AuthReqDto(serverLogin, serverPass))
         val authResponse = restTemplate.postForObject(
-            "http://$serverHost/login",
+            "http://$serverHost/api/v1/auth/login",
             authRequest,
             AuthRespDto::class.java
         )

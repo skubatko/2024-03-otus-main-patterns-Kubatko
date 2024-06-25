@@ -30,7 +30,7 @@ class SecurityConfig(
             .cors { it.disable() }
             .authorizeHttpRequests { auth ->
                 auth
-                    .requestMatchers("/api/v1/auth/**", "/index.html", "/ws/**").permitAll()
+                    .requestMatchers("/api/v1/auth/**", "/websocket/**").permitAll()
                     .anyRequest().authenticated()
             }
             .addFilterBefore(

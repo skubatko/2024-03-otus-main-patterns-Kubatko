@@ -1,4 +1,4 @@
-package ru.skubatko.dev.server.auth
+package ru.skubatko.dev.server.web
 
 import ru.skubatko.dev.api.models.auth.AuthReqDto
 import ru.skubatko.dev.api.models.auth.AuthRespDto
