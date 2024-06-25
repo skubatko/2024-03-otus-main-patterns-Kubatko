@@ -1,6 +1,6 @@
 package ru.skubatko.dev.agent.web
 
-import ru.skubatko.dev.api.models.GameStatusMessageTO
+import ru.skubatko.dev.api.models.game.GameStatusMessageTO
 import org.springframework.messaging.handler.annotation.MessageMapping
 import org.springframework.stereotype.Controller
 import ru.sokomishalov.commons.core.log.Loggable

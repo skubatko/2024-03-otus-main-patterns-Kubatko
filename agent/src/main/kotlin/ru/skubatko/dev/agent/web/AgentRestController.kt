@@ -1,7 +1,7 @@
 package ru.skubatko.dev.agent.web
 
 import ru.skubatko.dev.agent.service.AgentService
-import ru.skubatko.dev.api.models.CommandMessageTO
+import ru.skubatko.dev.api.models.game.CommandMessageTO
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController

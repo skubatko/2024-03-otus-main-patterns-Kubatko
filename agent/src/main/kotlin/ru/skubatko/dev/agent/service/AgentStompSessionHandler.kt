@@ -1,6 +1,6 @@
 package ru.skubatko.dev.agent.service
 
-import ru.skubatko.dev.api.models.GameStatusMessageTO
+import ru.skubatko.dev.api.models.game.GameStatusMessageTO
 import org.springframework.messaging.simp.stomp.StompCommand
 import org.springframework.messaging.simp.stomp.StompHeaders
 import org.springframework.messaging.simp.stomp.StompSession

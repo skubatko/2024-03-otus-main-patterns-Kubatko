@@ -43,8 +43,8 @@ class WebSocketServerConfig(
             override fun preSend(message: Message<*>, channel: MessageChannel): Message<*> {
                 val accessor = MessageHeaderAccessor.getAccessor(message, StompHeaderAccessor::class.java)
                 logInfo("Headers: $accessor")
-                assert(accessor != null)
-                if (StompCommand.CONNECT == accessor!!.command) {
+                require(accessor != null)
+                if (StompCommand.CONNECT == accessor.command) {
                     val authorizationHeader = accessor.getFirstNativeHeader("Authorization")!!
                     val token = authorizationHeader.substring(7)
                     val username: String = jwtTokenUtil.getUsername(token)

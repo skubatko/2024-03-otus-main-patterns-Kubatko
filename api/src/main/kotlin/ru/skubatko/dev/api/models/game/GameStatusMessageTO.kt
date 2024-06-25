@@ -1,4 +1,4 @@
-package ru.skubatko.dev.api.models
+package ru.skubatko.dev.api.models.game
 
 import ru.sokomishalov.commons.core.consts.EMPTY
 

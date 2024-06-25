@@ -5,7 +5,10 @@ spring:
   application:
     name: agent
 
-ws.server.host: ws://127.0.0.1:8081/websocket
+ws.server:
+  host: 127.0.0.1:8081
+  login: user
+  pass: 123
 
 logging:
   pattern.console: '%white([%thread]) %highlight(%-5level) %cyan(%logger{5}) %magenta([%file:%-4L]) - %msg%n'

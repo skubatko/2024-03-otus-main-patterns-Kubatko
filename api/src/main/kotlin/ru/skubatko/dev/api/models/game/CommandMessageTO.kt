@@ -1,4 +1,4 @@
-package ru.skubatko.dev.api.models
+package ru.skubatko.dev.api.models.game
 
 data class CommandMessageTO(
     val gameId: Int,

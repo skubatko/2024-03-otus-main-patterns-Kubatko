@@ -1,6 +1,6 @@
 package ru.skubatko.dev.agent.service
 
-import ru.skubatko.dev.api.models.CommandMessageTO
+import ru.skubatko.dev.api.models.game.CommandMessageTO
 import org.springframework.messaging.simp.stomp.StompSession
 import org.springframework.stereotype.Service
 

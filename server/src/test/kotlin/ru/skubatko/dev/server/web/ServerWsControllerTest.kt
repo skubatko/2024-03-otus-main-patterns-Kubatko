@@ -1,7 +1,7 @@
 package ru.skubatko.dev.server.web
 
-import ru.skubatko.dev.api.models.CommandMessageTO
-import ru.skubatko.dev.api.models.GameStatusMessageTO
+import ru.skubatko.dev.api.models.game.CommandMessageTO
+import ru.skubatko.dev.api.models.game.GameStatusMessageTO
 import ru.skubatko.dev.hw03.Command
 import ru.skubatko.dev.hw04.domain.UObject
 import ru.skubatko.dev.hw05.Args

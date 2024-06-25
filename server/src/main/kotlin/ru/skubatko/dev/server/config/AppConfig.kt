@@ -21,14 +21,14 @@ class AppConfig(
         userRepository.saveAll(
             listOf(
                 User().apply {
-                    login = "John Doe"
-                    name = "john"
+                    login = "admin"
+                    name = "admin"
                     pswd = passwordEncoder.encode("123")
-                    role = UserRole.ROLE_USER
+                    role = UserRole.ROLE_ADMIN
                 },
                 User().apply {
-                    login = "Peter Parker"
-                    name = "peter"
+                    login = "user"
+                    name = "user"
                     pswd = passwordEncoder.encode("123")
                     role = UserRole.ROLE_USER
                 }

@@ -1,5 +1,7 @@
 package ru.skubatko.dev.server.auth
 
+import ru.skubatko.dev.api.models.auth.AuthReqDto
+import ru.skubatko.dev.api.models.auth.AuthRespDto
 import ru.skubatko.dev.server.jwt.JwtTokenUtil
 import ru.skubatko.dev.server.user.UserDetailsServiceImpl
 import org.springframework.http.ResponseEntity
