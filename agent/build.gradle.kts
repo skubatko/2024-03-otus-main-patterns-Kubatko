@@ -15,6 +15,8 @@ dependencies {
     val sokomishalovCommonsVersion: String by project
 
     implementation(project(":api"))
+    implementation(project(":server:client"))
+    implementation(project(":common"))
     implementation(project(":hw"))
 
     implementation("org.springframework.boot:spring-boot-starter-websocket")

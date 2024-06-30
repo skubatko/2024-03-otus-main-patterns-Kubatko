@@ -1,0 +1,12 @@
+server:
+  port: 8181
+
+spring:
+  main:
+    banner-mode: off
+
+
+logging:
+  pattern.console: '%white([%thread]) %highlight(%-5level) %cyan(%logger{5}) %magenta([%file:%-4L]) - %msg%n'
+  level:
+    root: OFF

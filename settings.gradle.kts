@@ -3,8 +3,11 @@ rootProject.name = "2024-03-otus-main-patterns-Kubatko"
 include(
     "agent",
     "api",
+    "common",
     "hw",
-    "server"
+    "jwt", "jwt:client", "jwt:service",
+    "server", "server:client", "server:service",
+    "user", "user:client", "user:service"
 )
 
 pluginManagement {

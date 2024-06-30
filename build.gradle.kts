@@ -10,7 +10,9 @@ version = "1.0.0"
 description = "HW for OTUS Architecture and patterns course"
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_17
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
 }
 
 allprojects {

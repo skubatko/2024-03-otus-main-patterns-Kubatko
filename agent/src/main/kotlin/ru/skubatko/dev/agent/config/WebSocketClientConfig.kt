@@ -1,12 +1,11 @@
 package ru.skubatko.dev.agent.config
 
 import ru.skubatko.dev.api.models.auth.AuthReqDto
-import ru.skubatko.dev.api.models.auth.AuthRespDto
+import ru.skubatko.dev.server.client.ServerClient
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.web.client.RestTemplateBuilder
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.http.HttpEntity
 import org.springframework.http.HttpHeaders.AUTHORIZATION
 import org.springframework.messaging.converter.MappingJackson2MessageConverter
 import org.springframework.messaging.simp.stomp.StompHeaders
@@ -21,6 +20,7 @@ import ru.sokomishalov.commons.core.log.Loggable
 
 @Configuration
 class WebSocketClientConfig(
+    private val serverClient: ServerClient,
     @Value("\${ws.server.host}") private val serverHost: String,
     @Value("\${ws.server.login}") private val serverLogin: String,
     @Value("\${ws.server.pass}") private val serverPass: String,
@@ -31,13 +31,7 @@ class WebSocketClientConfig(
         sessionHandler: StompSessionHandler,
         restTemplateBuilder: RestTemplateBuilder
     ): StompSession {
-        val restTemplate = restTemplateBuilder.build()
-        val authRequest = HttpEntity(AuthReqDto(serverLogin, serverPass))
-        val authResponse = restTemplate.postForObject(
-            "http://$serverHost/api/v1/auth/login",
-            authRequest,
-            AuthRespDto::class.java
-        )
+        val authResponse = serverClient.login(AuthReqDto(serverLogin, serverPass))
         logInfo("authResponse: $authResponse")
         val serverUrl = "ws://$serverHost/websocket"
         val authHeader = StompHeaders().apply { set(AUTHORIZATION, "Bearer ${authResponse?.token}") }

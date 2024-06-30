@@ -1,7 +1,7 @@
 package ru.skubatko.dev.agent.service
 
-import ru.skubatko.dev.agent.test.utils.verifyOnce
 import ru.skubatko.dev.api.models.game.CommandMessageTO
+import ru.skubatko.dev.common.test.verifyOnce
 import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.junit5.MockKExtension
