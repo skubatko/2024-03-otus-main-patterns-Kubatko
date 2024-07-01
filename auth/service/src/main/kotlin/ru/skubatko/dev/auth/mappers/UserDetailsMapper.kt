@@ -1,11 +1,11 @@
-package ru.skubatko.dev.server.mappers
+package ru.skubatko.dev.auth.mappers
 
 import ru.skubatko.dev.api.models.user.UserDto
-import ru.skubatko.dev.server.models.GameUserDetails
+import ru.skubatko.dev.auth.models.AuthUserDetails
 import org.springframework.security.core.userdetails.UserDetails
 
 fun UserDto.toUserDetails(): UserDetails =
-    GameUserDetails(
+    AuthUserDetails(
         name = this.name,
         login = this.login,
         pswd = this.password,

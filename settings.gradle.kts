@@ -3,6 +3,7 @@ rootProject.name = "2024-03-otus-main-patterns-Kubatko"
 include(
     "agent",
     "api",
+    "auth", "auth:client", "auth:service",
     "common",
     "hw",
     "jwt", "jwt:client", "jwt:service",

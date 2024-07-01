@@ -1,7 +1,6 @@
 plugins {
     id("org.springframework.boot")
     kotlin("plugin.spring")
-    application
 }
 
 configurations {
@@ -15,19 +14,14 @@ dependencies {
     val javaJwtVersion: String by project
 
     implementation(project(":api"))
+    implementation(project(":common"))
 
     implementation("org.springframework.boot:spring-boot-starter-web")
-    implementation("org.springframework.boot:spring-boot-starter-actuator")
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
 
-    implementation("com.auth0:java-jwt:$javaJwtVersion")
     implementation("ru.sokomishalov.commons:commons-spring:$sokomishalovCommonsVersion")
 }
 
 springBoot {
     buildInfo()
-}
-
-application {
-    mainClass.set("ru.skubatko.dev.jwt.JwtApplicationKt")
 }

@@ -1,10 +1,10 @@
-package ru.skubatko.dev.server.models
+package ru.skubatko.dev.auth.models
 
 import ru.skubatko.dev.api.models.user.UserRole
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
 
-data class GameUserDetails(
+data class AuthUserDetails(
     val name: String? = null,
     val login: String? = null,
     val pswd: String? = null,

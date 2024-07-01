@@ -1,7 +1,7 @@
 package ru.skubatko.dev.agent.config
 
 import ru.skubatko.dev.api.models.auth.AuthReqDto
-import ru.skubatko.dev.server.client.ServerClient
+import ru.skubatko.dev.auth.client.AuthClient
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.web.client.RestTemplateBuilder
 import org.springframework.context.annotation.Bean
@@ -20,7 +20,7 @@ import ru.sokomishalov.commons.core.log.Loggable
 
 @Configuration
 class WebSocketClientConfig(
-    private val serverClient: ServerClient,
+    private val authClient: AuthClient,
     @Value("\${ws.server.host}") private val serverHost: String,
     @Value("\${ws.server.login}") private val serverLogin: String,
     @Value("\${ws.server.pass}") private val serverPass: String,
@@ -31,7 +31,7 @@ class WebSocketClientConfig(
         sessionHandler: StompSessionHandler,
         restTemplateBuilder: RestTemplateBuilder
     ): StompSession {
-        val authResponse = serverClient.login(AuthReqDto(serverLogin, serverPass))
+        val authResponse = authClient.login(AuthReqDto(serverLogin, serverPass))
         logInfo("authResponse: $authResponse")
         val serverUrl = "ws://$serverHost/websocket"
         val authHeader = StompHeaders().apply { set(AUTHORIZATION, "Bearer ${authResponse?.token}") }

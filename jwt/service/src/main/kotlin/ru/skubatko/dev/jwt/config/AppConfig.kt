@@ -1,4 +1,4 @@
-package ru.skubatko.dev.server.config
+package ru.skubatko.dev.jwt.config
 
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration

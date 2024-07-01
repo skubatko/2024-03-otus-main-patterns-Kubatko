@@ -12,23 +12,19 @@ configurations {
 
 dependencies {
     val sokomishalovCommonsVersion: String by project
+    val javaJwtVersion: String by project
 
     implementation(project(":api"))
-    implementation(project(":common"))
     implementation(project(":jwt:client"))
-    implementation(project(":hw"))
     implementation(project(":user:client"))
 
     implementation("org.springframework.boot:spring-boot-starter-web")
-    implementation("org.springframework.boot:spring-boot-starter-websocket")
     implementation("org.springframework.boot:spring-boot-starter-security")
-    implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server")
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
 
+    implementation("com.auth0:java-jwt:$javaJwtVersion")
     implementation("ru.sokomishalov.commons:commons-spring:$sokomishalovCommonsVersion")
-
-    testImplementation("org.springframework.security:spring-security-test")
 }
 
 springBoot {
@@ -36,5 +32,5 @@ springBoot {
 }
 
 application {
-    mainClass.set("ru.skubatko.dev.server.ServerApplicationKt")
+    mainClass.set("ru.skubatko.dev.jwt.JwtApplicationKt")
 }
